@@ -15,30 +15,62 @@
       --accent-soft: #eaf1ff;
       --shadow: 0 10px 30px rgba(16, 24, 40, 0.08);
       --radius: 16px;
+      --sidebar-width: 320px;
     }
 
     * { box-sizing: border-box; }
+
+    html, body {
+      height: 100%;
+    }
 
     body {
       margin: 0;
       font-family: Arial, Helvetica, sans-serif;
       background: linear-gradient(180deg, #eef3ff 0%, var(--bg) 220px);
       color: var(--text);
+      overflow: hidden;
     }
 
     .wrap {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 32px 20px 56px;
+      width: 100%;
+      max-width: none;
+      height: 100vh;
+      padding: 16px;
+    }
+
+    .page-layout {
+      display: grid;
+      grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
+      gap: 16px;
+      align-items: start;
+      height: calc(100vh - 32px);
+    }
+
+    .sidebar {
+      height: 100%;
+      min-width: 280px;
+      max-width: 340px;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding-right: 4px;
+    }
+
+    .content-area {
+      min-width: 0;
+      height: 100%;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding-right: 4px;
     }
 
     .hero {
       background: var(--panel);
       border: 1px solid var(--line);
       border-radius: 24px;
-      padding: 28px;
+      padding: 24px;
       box-shadow: var(--shadow);
-      margin-bottom: 24px;
+      margin-bottom: 16px;
     }
 
     h1 {
@@ -91,9 +123,96 @@
       text-align: center;
     }
 
+    .filters {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      padding: 18px;
+      box-shadow: var(--shadow);
+      margin-bottom: 0;
+    }
+
+    .filters-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    .filter-block {
+      grid-column: span 1;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 14px;
+      background: #fbfcff;
+    }
+
+    .filter-block.half {
+      grid-column: span 1;
+    }
+
+    .filter-title {
+      margin: 0 0 10px;
+      font-size: 0.88rem;
+      font-weight: 700;
+    }
+
+    .filter-help {
+      margin-top: 8px;
+      font-size: 0.80rem;
+      color: var(--muted);
+      line-height: 1.35;
+    }
+
+    .chips {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .chip {
+      position: relative;
+    }
+
+    .chip input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .chip label {
+      display: inline-flex;
+      align-items: center;
+      padding: 8px 12px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: #fff;
+      cursor: pointer;
+      user-select: none;
+      font-weight: 600;
+      font-size: 0.86rem;
+      line-height: 1.2;
+    }
+
+    .chip input:checked + label {
+      background: var(--accent-soft);
+      border-color: #bfd0ff;
+      color: var(--accent);
+    }
+
+    .summary {
+      margin-top: 10px;
+      padding: 10px 12px;
+      border: 1px dashed var(--line);
+      border-radius: 14px;
+      background: #fff;
+      color: var(--muted);
+      font-size: 0.82rem;
+      line-height: 1.45;
+    }
+
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
       gap: 14px;
     }
 
@@ -110,13 +229,15 @@
       padding: 18px 16px;
       box-shadow: var(--shadow);
       transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+      cursor: pointer;
     }
 
-    .card:hover {
-      transform: translateY(-2px);
-      border-color: #bfd0ff;
-      box-shadow: 0 16px 30px rgba(16, 24, 40, 0.10);
-    }
+.card:hover {
+  transform: translateY(-2px);
+  border-color: #8fd19e;
+  background: #e8f7ec;
+  box-shadow: 0 16px 30px rgba(16, 24, 40, 0.10);
+}
 
     .name {
       font-weight: 700;
@@ -146,679 +267,675 @@
       margin-top: 14px;
     }
 
-    @media (max-width: 640px) {
+    .hidden-block {
+      display: none !important;
+    }
+
+    .sidebar::-webkit-scrollbar,
+    .content-area::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    .sidebar::-webkit-scrollbar-track,
+    .content-area::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .sidebar::-webkit-scrollbar-thumb,
+    .content-area::-webkit-scrollbar-thumb {
+      background: #cfd8e6;
+      border-radius: 999px;
+      border: 2px solid transparent;
+      background-clip: padding-box;
+    }
+
+    .sidebar::-webkit-scrollbar-thumb:hover,
+    .content-area::-webkit-scrollbar-thumb:hover {
+      background: #b9c6da;
+      border: 2px solid transparent;
+      background-clip: padding-box;
+    }
+
+    @media (max-width: 900px) {
+      :root {
+        --sidebar-width: 290px;
+      }
+
       .wrap {
-        padding: 20px 14px 40px;
+        padding: 10px;
+      }
+
+      .page-layout {
+        gap: 10px;
+        height: calc(100vh - 20px);
+      }
+
+      .hero {
+        padding: 18px;
       }
 
       h1 {
-        font-size: 1.6rem;
+        font-size: 1.5rem;
       }
 
       .count {
         width: 100%;
       }
+
+      .grid {
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      }
     }
+	.hero-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 8px;
+}
+
+.hero-text {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.hero-logo-box {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 180px;
+}
+
+.hero-logo {
+  display: block;
+  max-height: 72px;
+  max-width: 180px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+@media (max-width: 900px) {
+  .hero-top {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .hero-logo-box {
+    min-width: auto;
+  }
+
+  .hero-logo {
+    max-height: 60px;
+    max-width: 150px;
+  }
+}
+	
   </style>
 </head>
 <body>
   <div class="wrap">
-    <section class="hero">
+    <div class="page-layout">
+      <aside class="sidebar">
+        <section class="filters">
+          <div class="filters-grid">
+            <div class="filter-block half">
+              <div class="filter-title">Entidad</div>
+              <div class="chips">
+                <div class="chip">
+                  <input type="radio" id="group-all" name="group" value="all" checked>
+                  <label for="group-all">Todas</label>
+                </div>
+                <div class="chip">
+                  <input type="radio" id="group-ac" name="group" value="ac">
+                  <label for="group-ac">Altos Cargos</label>
+                </div>
+                <div class="chip">
+                  <input type="radio" id="group-resto" name="group" value="resto">
+                  <label for="group-resto">Resto</label>
+                </div>
+              </div>
+              <div class="filter-help">Altos Cargos son las entidades cuyo nombre termina en <strong>-AC</strong>.</div>
+            </div>
+
+            <div class="filter-block half">
+              <div class="filter-title">Modo</div>
+              <div class="chips">
+                <div class="chip">
+                  <input type="radio" id="mode-panel" name="mode" value="panel" checked>
+                  <label for="mode-panel">Panel</label>
+                </div>
+                <div class="chip">
+                  <input type="radio" id="mode-problemas" name="mode" value="problemas">
+                  <label for="mode-problemas">Problemas</label>
+                </div>
+              </div>
+              <div id="summary" class="summary">Modo actual: <strong>Panel</strong>.</div>
+            </div>
+          </div>
+
+          <div id="problemas-filters" class="filters-grid hidden-block" style="margin-top:12px;">
+            <div id="discover-block" class="filter-block half">
+              <div class="filter-title">Problemas · Descubierto en</div>
+              <div class="chips">
+                <div class="chip"><input type="radio" id="d1" name="discovered" value="/issues/threats?start_date=last_1_day"><label for="d1">1 día</label></div>
+                <div class="chip"><input type="radio" id="d7" name="discovered" value="/issues/threats?"><label for="d7">7 días</label></div>
+                <div class="chip"><input type="radio" id="d30" name="discovered" value="/issues/threats?start_date=last_30_days" checked><label for="d30">30 días</label></div>
+                <div class="chip"><input type="radio" id="d60" name="discovered" value="/issues/threats?start_date=last_60_days"><label for="d60">60 días</label></div>
+                <div class="chip"><input type="radio" id="d90" name="discovered" value="/issues/threats?start_date=last_90_days"><label for="d90">90 días</label></div>
+                <div class="chip"><input type="radio" id="d365" name="discovered" value="/issues/threats?start_date=last_12_months"><label for="d365">1 año</label></div>
+                <div class="chip"><input type="radio" id="dall" name="discovered" value="/issues/threats?start_date=all"><label for="dall">Siempre</label></div>
+              </div>
+            </div>
+
+            <div id="risk-block" class="filter-block half">
+              <div class="filter-title">Problemas · Riesgo</div>
+              <div class="chips">
+                <div class="chip"><input type="checkbox" id="risk-high" value="high"><label for="risk-high">Alta</label></div>
+                <div class="chip"><input type="checkbox" id="risk-medium" value="medium"><label for="risk-medium">Media</label></div>
+                <div class="chip"><input type="checkbox" id="risk-low" value="low"><label for="risk-low">Baja</label></div>
+                <div class="chip"><input type="checkbox" id="risk-advisory" value="advisory"><label for="risk-advisory">Advertencia</label></div>
+              </div>
+              <div class="filter-help">Puedes marcar uno o varios niveles de riesgo.</div>
+            </div>
+
+            <div id="state-block" class="filter-block half">
+              <div class="filter-title">Problemas · Estado</div>
+              <div class="chips">
+                <div class="chip"><input type="radio" id="state-open" name="state" value="open" checked><label for="state-open">Activa</label></div>
+                <div class="chip"><input type="radio" id="state-resolved" name="state" value="resolved"><label for="state-resolved">Resuelta</label></div>
+                <div class="chip"><input type="radio" id="state-ignored" name="state" value="ignored"><label for="state-ignored">Omitida</label></div>
+              </div>
+            </div>
+
+            <div id="os-block" class="filter-block half">
+              <div class="filter-title">Problemas · SO</div>
+              <div class="chips">
+                <div class="chip"><input type="checkbox" id="os-ios" value="ios"><label for="os-ios">iOS</label></div>
+                <div class="chip"><input type="checkbox" id="os-android" value="android"><label for="os-android">Android</label></div>
+              </div>
+              <div class="filter-help">Puedes marcar uno o varios sistemas operativos.</div>
+            </div>
+
+            <div id="type-block" class="filter-block half">
+              <div class="filter-title">Problemas · Tipo de problema</div>
+              <div class="chips">
+                <div class="chip"><input type="checkbox" id="type-application" value="application"><label for="type-application">Aplicación</label></div>
+                <div class="chip"><input type="checkbox" id="type-configuration" value="configuration"><label for="type-configuration">Configuración</label></div>
+                <div class="chip"><input type="checkbox" id="type-file" value="file"><label for="type-file">Fichero</label></div>
+                <div class="chip"><input type="checkbox" id="type-network" value="network"><label for="type-network">Red</label></div>
+                <div class="chip"><input type="checkbox" id="type-os" value="os"><label for="type-os">Sistema Operativo</label></div>
+              </div>
+              <div class="filter-help">Puedes marcar uno o varios tipos.</div>
+            </div>
+
+            <div id="assessment-block" class="filter-block">
+              <div class="filter-title">Problemas · Clasificación</div>
+              <div class="chips">
+                <div class="chip"><input type="checkbox" id="a-root_jailbreak" value="root_jailbreak" data-platforms="android,ios" data-types="os"><label for="a-root_jailbreak">Root/jailbreak</label></div>
+                <div class="chip"><input type="checkbox" id="a-root_enabler" value="root_enabler" data-platforms="android,ios" data-types="application"><label for="a-root_enabler">Habilitador de root</label></div>
+                <div class="chip"><input type="checkbox" id="a-adware" value="adware" data-platforms="android,ios" data-types="application"><label for="a-adware">Adware</label></div>
+                <div class="chip"><input type="checkbox" id="a-agent_outdated" value="agent_outdated" data-platforms="android,ios" data-types="application"><label for="a-agent_outdated">Agente desactualizado</label></div>
+                <div class="chip"><input type="checkbox" id="a-sideloaded_app" value="sideloaded_app" data-platforms="android" data-types="application"><label for="a-sideloaded_app">Aplicación instalada externamente</label></div>
+                <div class="chip"><input type="checkbox" id="a-blacklisted_app" value="blacklisted_app" data-platforms="android,ios" data-types="application"><label for="a-blacklisted_app">Aplicación en lista negra</label></div>
+                <div class="chip"><input type="checkbox" id="a-active_mitm" value="active_mitm" data-platforms="android,ios" data-types="network"><label for="a-active_mitm">MITM activo</label></div>
+                <div class="chip"><input type="checkbox" id="a-bot" value="bot" data-platforms="android,ios" data-types="application"><label for="a-bot">Bot</label></div>
+                <div class="chip"><input type="checkbox" id="a-chargeware" value="chargeware" data-platforms="android,ios" data-types="application"><label for="a-chargeware">Chargeware</label></div>
+                <div class="chip"><input type="checkbox" id="a-secure_dns_not_enabled" value="secure_dns_not_enabled" data-platforms="ios" data-types="configuration"><label for="a-secure_dns_not_enabled">DNS seguro no habilitado</label></div>
+                <div class="chip"><input type="checkbox" id="a-usb_debugging_enabled" value="usb_debugging_enabled" data-platforms="android" data-types="configuration"><label for="a-usb_debugging_enabled">Depuración USB habilitada</label></div>
+                <div class="chip"><input type="checkbox" id="a-unencrypted" value="unencrypted" data-platforms="android,ios" data-types="configuration"><label for="a-unencrypted">Sin cifrar</label></div>
+                <div class="chip"><input type="checkbox" id="a-data_leak" value="data_leak" data-platforms="android,ios" data-types="application"><label for="a-data_leak">Fuga de datos</label></div>
+                <div class="chip"><input type="checkbox" id="a-non_app_store_signer" value="non_app_store_signer" data-platforms="ios" data-types="application"><label for="a-non_app_store_signer">Firmante no oficial</label></div>
+                <div class="chip"><input type="checkbox" id="a-click_fraud" value="click_fraud" data-platforms="android,ios" data-types="application"><label for="a-click_fraud">Fraude de clics</label></div>
+                <div class="chip"><input type="checkbox" id="a-toll_fraud" value="toll_fraud" data-platforms="android,ios" data-types="application"><label for="a-toll_fraud">Fraude de tarificación</label></div>
+                <div class="chip"><input type="checkbox" id="a-unknown_sources_enabled" value="unknown_sources_enabled" data-platforms="android" data-types="configuration"><label for="a-unknown_sources_enabled">Fuentes desconocidas</label></div>
+                <div class="chip"><input type="checkbox" id="a-worm" value="worm" data-platforms="android,ios" data-types="application"><label for="a-worm">Gusano</label></div>
+                <div class="chip"><input type="checkbox" id="a-app_dropper" value="app_dropper" data-platforms="android,ios" data-types="application"><label for="a-app_dropper">Aplicación dropper</label></div>
+                <div class="chip"><input type="checkbox" id="a-surveillanceware" value="surveillanceware" data-platforms="android,ios" data-types="application"><label for="a-surveillanceware">Software de vigilancia</label></div>
+                <div class="chip"><input type="checkbox" id="a-developer_mode_enabled" value="developer_mode_enabled" data-platforms="android,ios" data-types="configuration"><label for="a-developer_mode_enabled">Modo desarrollador</label></div>
+                <div class="chip"><input type="checkbox" id="a-out_of_date_aspl" value="out_of_date_aspl" data-platforms="android" data-types="os"><label for="a-out_of_date_aspl">ASPL desactualizado</label></div>
+                <div class="chip"><input type="checkbox" id="a-storage_permission_not_accepted" value="storage_permission_not_accepted" data-platforms="android" data-types="configuration"><label for="a-storage_permission_not_accepted">Permiso almacenamiento</label></div>
+                <div class="chip"><input type="checkbox" id="a-vpn_not_enabled" value="vpn_not_enabled" data-platforms="android,ios" data-types="configuration"><label for="a-vpn_not_enabled">VPN no habilitada</label></div>
+                <div class="chip"><input type="checkbox" id="a-notification_permission_not_accepted" value="notification_permission_not_accepted" data-platforms="android,ios" data-types="configuration"><label for="a-notification_permission_not_accepted">Permiso notificaciones</label></div>
+                <div class="chip"><input type="checkbox" id="a-pcp_disabled" value="pcp_disabled" data-platforms="android,ios" data-types="configuration"><label for="a-pcp_disabled">PCP deshabilitado</label></div>
+                <div class="chip"><input type="checkbox" id="a-pcp_paused" value="pcp_paused" data-platforms="android,ios" data-types="configuration"><label for="a-pcp_paused">PCP en pausa</label></div>
+                <div class="chip"><input type="checkbox" id="a-backdoor" value="backdoor" data-platforms="android,ios" data-types="application"><label for="a-backdoor">Puerta trasera</label></div>
+                <div class="chip"><input type="checkbox" id="a-riskware" value="riskware" data-platforms="android,ios" data-types="application"><label for="a-riskware">Software de riesgo</label></div>
+                <div class="chip"><input type="checkbox" id="a-out_of_date_os" value="out_of_date_os" data-platforms="android,ios" data-types="os"><label for="a-out_of_date_os">SO desactualizado</label></div>
+                <div class="chip"><input type="checkbox" id="a-no_device_lock" value="no_device_lock" data-platforms="android,ios" data-types="configuration"><label for="a-no_device_lock">Sin bloqueo</label></div>
+                <div class="chip"><input type="checkbox" id="a-spam" value="spam" data-platforms="android,ios" data-types="application"><label for="a-spam">Spam</label></div>
+                <div class="chip"><input type="checkbox" id="a-spyware" value="spyware" data-platforms="android,ios" data-types="application"><label for="a-spyware">Spyware</label></div>
+                <div class="chip"><input type="checkbox" id="a-trojan" value="trojan" data-platforms="android,ios" data-types="application"><label for="a-trojan">Troyano</label></div>
+                <div class="chip"><input type="checkbox" id="a-virus" value="virus" data-platforms="android,ios" data-types="application"><label for="a-virus">Virus</label></div>
+                <div class="chip"><input type="checkbox" id="a-vulnerability" value="vulnerability" data-platforms="android,ios" data-types="application"><label for="a-vulnerability">Vulnerabilidad</label></div>
+                <div class="chip"><input type="checkbox" id="a-exploit" value="exploit" data-platforms="android,ios" data-types="os"><label for="a-exploit">Exploit</label></div>
+                <div class="chip"><input type="checkbox" id="a-access_control_violation" value="access_control_violation" data-platforms="android" data-types="os"><label for="a-access_control_violation">Control acceso</label></div>
+                <div class="chip"><input type="checkbox" id="a-rogue_wifi" value="rogue_wifi" data-platforms="android,ios" data-types="network"><label for="a-rogue_wifi">Wi-Fi no seguro</label></div>
+              </div>
+              <div class="filter-help">Las clasificaciones se ajustan automáticamente según SO y Tipo.</div>
+            </div>
+          </div>
+        </section>
+      </aside>
+
+      <main class="content-area">
+<section class="hero">
+  <div class="hero-top">
+    <div class="hero-text">
       <h1>Accesos Lookout</h1>
-      <p class="sub">Directorio de accesos rápidos. Usa el buscador para filtrar por organismo.</p>
+      <p class="sub">Directorio de accesos rápidos. Usa los filtros y pulsa sobre la entidad para abrir la URL correspondiente.</p>
+    </div>
 
-      <div class="toolbar">
-        <div class="search">
-          <input id="search" type="text" placeholder="Buscar acceso...">
-        </div>
-        <div id="count" class="count">154 accesos</div>
-      </div>
-    </section>
+    <div class="hero-logo-box">
+      <img
+        src="https://mtp.lookout.com/assets/external/partners/omnissa-logo.svg"
+        alt="Omnissa MTD"
+        class="hero-logo"
+      >
+    </div>
+  </div>
 
-    <section id="grid" class="grid">
-      <a class="card" href="https://mtp.lookout.com/b009e41e-283d-47d2-9d80-eea766e4915c/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">ABOGACIA_GE</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/d8b06ad5-129b-4dbd-95e2-49bc88c4d46f/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">ABOGACIA_GE-AC</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/2e0e0cb6-d0da-4c82-8e7b-5d56eb62c550/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">AEAD</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/6a23f8f1-fc79-4c75-9e63-ce6af6b9921c/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">AEAD-PRE</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/59ce7e2d-fcc2-4a94-9a31-138d6e153ed5/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">AEBOE</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/c7cef0ad-b67d-4c82-a066-668667f8e644/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">AECID</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/e8dc0b99-b8fb-4741-b213-8c5acebb551b/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">AEE</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/4afa99d4-e75b-4c2c-a7f2-94e7ec897f9f/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">AEI</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/1e2a1bbe-6b1f-4b90-bce3-3167db2d93e1/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">AEMET</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/e448a2d3-0cf3-453b-95ec-10f640dd4cdd/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">AEMPS</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/f0f94d00-9c99-4a3e-8e66-a4a510c67402/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">AEPD</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/240a29fb-ae06-4a0d-b6b9-83f4e070c880/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">AESA</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/0964c019-8fbe-41f9-a72f-d34c990c4ef0/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">AESAN</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/1db9f2a5-b8ba-4edc-8aa0-0150424379c1/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">AESIA</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/6b80d5de-0b98-49a7-9708-16868bd75268/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">AICA</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/e09284d1-5746-49bb-bd61-7ffc1eb14174/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">AINODI</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/afca3000-c30a-480d-9a19-ef581a5fcc46/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">AIPI</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/567f162b-383f-4326-bef2-78f9050773c3/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">AIREF</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/f1957b42-e93a-4a3f-b526-5c3fb1bbcac7/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">ANECA</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/976f23c0-dbaa-413e-a9a3-18b384f48716/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">BNE</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/6c488d8d-7dbd-4f10-b091-0812c1353dc9/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">CAPN</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/6f63cd74-bf6c-43a3-9601-119a025e9bda/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">Carlos_III</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/aad2a823-a8bd-4b06-9ac1-06ac7be2f79c/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">CATASTRO</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/7d04ced6-030e-4512-a7fb-a3ea5daacc5e/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">CEDEX</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/b2422e28-5d5a-433c-93b3-a4f4f9fad963/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">CEJ</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/5d06b4b9-b0f1-41e5-b68b-c17132409dfa/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">CELAD</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/13c3f261-c89f-49db-9ff8-f38c58ff7d65/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">CEPC</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/6e087bae-1b0b-49fd-afd1-873b9c0d851a/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">CERVANTES</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/f6706cab-7d7a-4106-bff3-161c775da7a0/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">CES</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/749dafe8-778e-404a-a1e2-93911d3ac3d4/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">CH_CANTABRICO</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/edfc7fa3-1699-4fd1-9e36-535763d609ae/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">CH_DUERO</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/2078eb1c-9991-4a79-b8b1-cd1d251d12ad/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">CH_EBRO</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/f2fe46ae-1859-423f-8c67-3052a58384d2/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">CH_GUADALQUIVIR</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/4dfcfe41-e6ac-4f6e-ac99-ebe87be35e1b/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">CH_GUADIANA</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/41343f11-1674-4dc5-9c8b-e658c6f07a85/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">CH_JUCAR</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/8c6137f6-a08b-4bfb-901f-7cb835c70eb7/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">CH_MIÑO_SIL</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/1b626cdd-62be-47ab-a844-f01759ae31cf/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">CH_SEGURA</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/a187c60e-784e-4d52-a9c4-87625445a50d/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">CH_TAJO</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/84739f1f-1135-4dd8-bb10-c1332a74ef83/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">CIEMAT</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/ae6a29c8-73d4-4819-bd62-223acd8d285d/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">CIENCIA</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/4a45c57f-60e3-403b-b0aa-93e64ae42d3a/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">CIENCIA-AC</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/36cb1539-e804-44e3-9f4d-b42947cf9987/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">CIS</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/d9e62dcd-6632-4274-bf26-4991bd66703a/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">CMTabaco</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/1b17621f-17e1-439e-a300-bd5cd85e79b7/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">CNIG</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/60e70564-ddaa-42db-a506-bb8abb9566d3/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">CNMC</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/fe22e6df-ab58-4f9b-ba89-fe09c0012591/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">CONSUMO</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/01331b44-dabb-4e24-b847-f5a16646fcb0/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">CSD</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/68f2d6f8-3d35-46f4-abd0-a909f2bdeeae/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">CSIC</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/7dae24af-7c3b-478b-ae4c-ed71df907a11/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">CSIC-NETREMOR</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/c50a3e6b-0d93-4f1d-88f4-a6357408e31e/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">CSN</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/02b2a404-4860-46e4-8f64-35898b28f825/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">CTBG</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/4b7028c6-2c0f-4512-8029-a836fbe756da/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">CULTURA</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/e2cbc8f4-c4ce-4d4f-b540-4d5206135efa/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">CULTURA-AC</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/b255d875-7ca6-4175-bdc9-97d3fb003fb6/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">DERECHOS_SOCIALES</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/4eac313f-8033-405f-9ecd-07e293c9fc14/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">DERECHOS_SOCIALES-AC</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/ff8af188-ee2c-480b-9588-3fcf828d16ca/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">DG_PE</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/c53af87a-8637-4a3e-a5e0-5351b2ab3853/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">DG_TRIB</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/8cef5cab-6b0b-4fb2-b4a0-7620d3f85589/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">DGOJ</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/25f9ac56-b153-49b3-98ba-abe6f2a354e0/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">DGPCyE</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/a8d1c880-98bb-4bc8-ab65-b2ccd7f8170d/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">DGSFP</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/467e0ef5-ad63-4f54-9ae6-85c57b31196d/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">DGT</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/832bf0e0-51b1-43c3-9973-520ce5e17c8c/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">DGTDAJ</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/02eaa900-10a8-49aa-9b1b-9720b7e88da3/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">DIGITAL</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/2a4ad079-234b-4a09-bf83-1c09da3ce275/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">DIGITAL-AC</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/b0e8c285-97f7-4453-b5df-9287b7fad006/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">ECONOMIA</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/5b75e3e2-b155-4daa-bc63-9165a3e899a8/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">ECONOMIA-AC</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/3520b744-77de-43ce-ba6f-3040e97d5a47/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">EDUCACION</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/6e080047-d570-4048-b09d-1568cfe1ee6d/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">EDUCACION-AC</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/8d6849ee-7c40-4528-9d16-c70a09fea193/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">ENESA</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/37400d82-0b34-4beb-8278-9727940c7b32/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">EXTERIORES</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/c39a7637-6b35-4cb3-8cc8-1b9ad99596c9/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">EXTERIORES-AC</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/307ff388-0a64-4e47-9abb-c0688f99f79f/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">FEGA</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/0c2521e6-b222-45cf-9c15-df9051466512/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">FOGASA</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/23f44435-7afc-4b9e-b7c3-0b258b5891f3/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">GIEC</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/13ff2d9b-29af-4771-b02b-dad69a2ee4c2/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">HACIENDA</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/fc578bc8-f032-4b5f-8e2d-97f12490612f/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">HACIENDA-AC</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/2dc5cc3d-b2d6-425f-b45a-956925dde84c/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">ICAA</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/30efaa62-791f-4c8e-aac4-dcf28bd88f56/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">ICAC</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/d3aa40a4-07cd-4f39-bc75-8b3ccfc0ad02/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">IEF</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/7393b546-ab92-4afb-9614-53fc49246e83/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">IEO</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/1d7df9b8-0557-42eb-9e57-26a07b2795c6/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">IGAE</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/e877b1c0-2b5c-4594-9ede-a0a7f56f0c38/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">IGAE-AC</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/3ebbff2a-97ff-4c57-ae0c-0e0ede6ef862/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">IGME</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/bd1e9e6f-78b8-40cc-82d0-c92318b43ed5/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">IGUALDAD</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/2787b4fc-828d-4634-9c2c-2163739eb0e8/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">IGUALDAD-AC</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/2a5f3617-a839-4f77-8f7e-12eec741cd43/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">IMSERSO</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/38da45ac-4331-469f-ab36-3855a535473a/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">INAEM</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/a79d4259-b8cc-467c-91b0-842089cac203/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">INAP</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/07d8d059-6e95-420c-a562-c84fba00b9f2/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">INCLUSION</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/f70446c9-44f3-4898-9eac-11071f863703/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">INCLUSION-AC</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/543690ca-75d1-4b4e-acc8-1590b53bb182/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">INDUSTRIA</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/372e23a2-dcb9-4770-ad4e-470ac54d90bb/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">INDUSTRIA-AC</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/7306a053-a05f-4ea3-80bd-c632f6732fca/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">INE</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/bc5e3140-4f21-4481-af17-0f5c80bfdd5c/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">INGESA-CEUTA</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/c159549d-182f-4870-929e-0274cf9c6e15/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">INGESA-DOSIM</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/63689a10-fe27-444a-9c69-13e0ef0fec79/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">INGESA-MELILLA</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/4089c802-126e-4790-b730-46fdf990ba4d/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">INGESA-SSCC</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/e78d7a17-d02f-40ef-b886-c94f4baea656/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">INIA</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/21936249-363d-47a2-beeb-1b75e850aa76/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">INJUVE</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/d7b24cfe-ecf6-4ab9-95e7-eeb5b70b0d73/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">INMUJER</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/cc4e3469-7302-4a89-be36-6833733fdd27/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">INSST</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/060d69bc-59d2-4c59-9614-8e758041416c/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">INTEF</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/9e6eee39-1bc3-455c-9de5-35afca0b5fb8/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">INTERIOR</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/e21bc349-bd68-4773-9e89-a147445bb69f/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">INTERIOR-AC</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/93a4ddcf-dd84-4dae-91c5-545619ca0a02/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">ITJ</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/6def5431-625a-4cda-889c-0621ba6b46b7/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">JUSTICIA-AC</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/1b45bbe6-d9e8-4a90-9270-159743d08dc2/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">JUVENTUD</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/90d1af0c-0cf7-42c0-a616-8546817b39d7/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">JUVENTUD-AC</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/8cf0acb1-8539-4b9f-ab04-963504d322f4/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">MAPA</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/d498d89f-c963-4f6d-8052-cfb79565d0fc/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">MAPA-AC</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/2e02260a-fd05-46e1-885d-ebb2c9f10f2c/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">MCT</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/820d2f82-0336-46bd-a6a5-53757ab290fc/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">MITECO</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/bd46aeb2-4182-4416-9499-0c316fd83e16/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">MITECO-AC</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/5a4f0663-2885-43d8-87cd-27037281d903/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">MITMA</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/ced647af-2b95-489c-a114-18951fafaf5a/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">MITMA-AC</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/9dd5849d-f183-48c1-8780-ccb09e25f340/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">MJU</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/e8a5c50f-6166-4a8e-af78-73150a7ee6dc/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">MPR</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/bd19aaa8-f148-4d56-9847-1cfc743a00c9/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">MPR-AC</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/19779056-9701-4e0a-86e8-12f5e68ad894/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">MPT-SSCC</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/c853c9ad-60fb-4527-ac69-e43a622256d0/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">MPT-SSCC-AC</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/489b03bd-b3b5-4e31-a48e-53557ebf80b9/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">MPT-SSPP</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/586034b4-fe12-4c99-8912-25ba2bea0979/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">MUFACE</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/b04169ea-147a-4d86-850f-13d1484b86ae/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">MUGEJU</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/8e8b1c86-653c-4245-863e-0b417a52d60a/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">OAPPNN</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/9e4fc59e-c770-4e9d-8c34-ab13c2a2ac81/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">OEITSS</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/fdbe265c-a797-402f-9492-b84dca4a5d7a/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">OEPM</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/bea09090-dda5-4831-bd0c-0d17bf12790e/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">OFECOMES</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/3ae2454d-331a-4e3f-aac7-e9a8b301da80/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">ONT</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/66a23c2e-8e43-40b6-b33a-566a4f3c8bbd/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">PME</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/80715aca-3ad7-49c6-8114-e956ca643752/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">PRADO</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/e1d4312a-6d2a-4758-8da8-2e44becc4291/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">R_SOFIA</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/eec730ad-0810-41a2-b9ed-08e638fbfe5d/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">SANIDAD</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/dd9b4ef8-02e2-4b5e-a4a9-a572017b2c66/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">SANIDAD-AC</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/137a45d1-5e1e-4afc-ac4e-5d509d23e9a6/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">SEC</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/4613f491-89a6-48a0-a019-af7bdbd5cff0/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">SEDIA</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/e2ecf126-f16f-47b0-b086-5ff2820aafce/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">SEDIA-AC</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/ffba6188-8308-445f-a6e4-55a219d2c533/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">SEFP</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/6d45ff05-44dd-4cf3-953b-2dd53e3e23a1/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">SEFP-AC</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/be522246-be86-4e0f-9a11-fa5d850ed624/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">SEPE</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/7a50f6d0-dca2-4192-9255-80a62bcc8211/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">SEPIE</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/846d15cf-bb44-485c-a7a6-62deed7b833c/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">SETELECO</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/bf8ecd28-4a65-4b9e-82b2-e39418665b55/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">SETELECO-AC</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/d5a25897-53eb-4d93-bdef-cfff111557fe/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">SETPF</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/a9fa13ad-45c5-4107-ad71-d6d81101bb78/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">SGAE</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/c01e2b4d-f6ae-4ae0-94cb-f45252703de2/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">SGFAL</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/655b22c4-cdb2-4051-a3e3-659f79f18a2d/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">SGIIPP</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/a231c48b-23f5-4f5b-bb45-9ac7d5f0f33f/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">SGME</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/9d53a4eb-3f95-45c6-97d0-69c10353c41a/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">TEAC</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/fba9a46b-44cf-4638-91a7-2cca799b5b02/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">TRABAJO</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/c2ea701a-6462-469d-9f3c-a862410dc731/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">TRABAJO-AC</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/477aadbb-ccee-400b-bb7b-828e5fb99a7f/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">UIMP</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/fb94cb71-ee7e-4161-ac42-20893418079e/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">UNIVERSIDADES</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/721882f9-f2a5-47e0-9b99-f0eb46adab58/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">VIVIENDA</span>
-        <span class="cta">Abrir</span>
-      </a>
-<a class="card" href="https://mtp.lookout.com/1b32635b-2aac-48cd-8eab-60522f40f3e8/issues/threats?start_date=last_30_days" target="_blank" rel="noopener noreferrer">
-        <span class="name">VIVIENDA-AC</span>
-        <span class="cta">Abrir</span>
-      </a>
-    </section>
+  <div class="toolbar">
+    <div class="search">
+      <input id="search" type="text" placeholder="Buscar acceso...">
+    </div>
+    <div id="count" class="count">0 accesos</div>
+  </div>
+</section>
 
-    <div id="empty" class="empty">No hay resultados para esa búsqueda.</div>
+        <section id="grid" class="grid"></section>
+        <div id="empty" class="empty">No hay resultados para esa búsqueda.</div>
+      </main>
+    </div>
   </div>
 
   <script>
+    const entries = [
+      { name: "ABOGACIA_GE", base: "https://mtp.lookout.com/b009e41e-283d-47d2-9d80-eea766e4915c" },
+      { name: "ABOGACIA_GE-AC", base: "https://mtp.lookout.com/d8b06ad5-129b-4dbd-95e2-49bc88c4d46f" },
+      { name: "AEAD", base: "https://mtp.lookout.com/2e0e0cb6-d0da-4c82-8e7b-5d56eb62c550" },
+      { name: "AEAD-PRE", base: "https://mtp.lookout.com/6a23f8f1-fc79-4c75-9e63-ce6af6b9921c" },
+      { name: "AEBOE", base: "https://mtp.lookout.com/59ce7e2d-fcc2-4a94-9a31-138d6e153ed5" },
+      { name: "AECID", base: "https://mtp.lookout.com/c7cef0ad-b67d-4c82-a066-668667f8e644" },
+      { name: "AEE", base: "https://mtp.lookout.com/e8dc0b99-b8fb-4741-b213-8c5acebb551b" },
+      { name: "AEI", base: "https://mtp.lookout.com/4afa99d4-e75b-4c2c-a7f2-94e7ec897f9f" },
+      { name: "AEMET", base: "https://mtp.lookout.com/1e2a1bbe-6b1f-4b90-bce3-3167db2d93e1" },
+      { name: "AEMPS", base: "https://mtp.lookout.com/e448a2d3-0cf3-453b-95ec-10f640dd4cdd" },
+      { name: "AEPD", base: "https://mtp.lookout.com/f0f94d00-9c99-4a3e-8e66-a4a510c67402" },
+      { name: "AESA", base: "https://mtp.lookout.com/240a29fb-ae06-4a0d-b6b9-83f4e070c880" },
+      { name: "AESAN", base: "https://mtp.lookout.com/0964c019-8fbe-41f9-a72f-d34c990c4ef0" },
+      { name: "AESIA", base: "https://mtp.lookout.com/1db9f2a5-b8ba-4edc-8aa0-0150424379c1" },
+      { name: "AICA", base: "https://mtp.lookout.com/6b80d5de-0b98-49a7-9708-16868bd75268" },
+      { name: "AINODI", base: "https://mtp.lookout.com/e09284d1-5746-49bb-bd61-7ffc1eb14174" },
+      { name: "AIPI", base: "https://mtp.lookout.com/afca3000-c30a-480d-9a19-ef581a5fcc46" },
+      { name: "AIREF", base: "https://mtp.lookout.com/567f162b-383f-4326-bef2-78f9050773c3" },
+      { name: "ANECA", base: "https://mtp.lookout.com/f1957b42-e93a-4a3f-b526-5c3fb1bbcac7" },
+      { name: "BNE", base: "https://mtp.lookout.com/976f23c0-dbaa-413e-a9a3-18b384f48716" },
+      { name: "CAPN", base: "https://mtp.lookout.com/6c488d8d-7dbd-4f10-b091-0812c1353dc9" },
+      { name: "Carlos_III", base: "https://mtp.lookout.com/6f63cd74-bf6c-43a3-9601-119a025e9bda" },
+      { name: "CATASTRO", base: "https://mtp.lookout.com/aad2a823-a8bd-4b06-9ac1-06ac7be2f79c" },
+      { name: "CEDEX", base: "https://mtp.lookout.com/7d04ced6-030e-4512-a7fb-a3ea5daacc5e" },
+      { name: "CEJ", base: "https://mtp.lookout.com/b2422e28-5d5a-433c-93b3-a4f4f9fad963" },
+      { name: "CELAD", base: "https://mtp.lookout.com/5d06b4b9-b0f1-41e5-b68b-c17132409dfa" },
+      { name: "CEPC", base: "https://mtp.lookout.com/13c3f261-c89f-49db-9ff8-f38c58ff7d65" },
+      { name: "CERVANTES", base: "https://mtp.lookout.com/6e087bae-1b0b-49fd-afd1-873b9c0d851a" },
+      { name: "CES", base: "https://mtp.lookout.com/f6706cab-7d7a-4106-bff3-161c775da7a0" },
+      { name: "CH_CANTABRICO", base: "https://mtp.lookout.com/749dafe8-778e-404a-a1e2-93911d3ac3d4" },
+      { name: "CH_DUERO", base: "https://mtp.lookout.com/edfc7fa3-1699-4fd1-9e36-535763d609ae" },
+      { name: "CH_EBRO", base: "https://mtp.lookout.com/2078eb1c-9991-4a79-b8b1-cd1d251d12ad" },
+      { name: "CH_GUADALQUIVIR", base: "https://mtp.lookout.com/f2fe46ae-1859-423f-8c67-3052a58384d2" },
+      { name: "CH_GUADIANA", base: "https://mtp.lookout.com/4dfcfe41-e6ac-4f6e-ac99-ebe87be35e1b" },
+      { name: "CH_JUCAR", base: "https://mtp.lookout.com/41343f11-1674-4dc5-9c8b-e658c6f07a85" },
+      { name: "CH_MIÑO_SIL", base: "https://mtp.lookout.com/8c6137f6-a08b-4bfb-901f-7cb835c70eb7" },
+      { name: "CH_SEGURA", base: "https://mtp.lookout.com/1b626cdd-62be-47ab-a844-f01759ae31cf" },
+      { name: "CH_TAJO", base: "https://mtp.lookout.com/a187c60e-784e-4d52-a9c4-87625445a50d" },
+      { name: "CIEMAT", base: "https://mtp.lookout.com/84739f1f-1135-4dd8-bb10-c1332a74ef83" },
+      { name: "CIENCIA", base: "https://mtp.lookout.com/ae6a29c8-73d4-4819-bd62-223acd8d285d" },
+      { name: "CIENCIA-AC", base: "https://mtp.lookout.com/4a45c57f-60e3-403b-b0aa-93e64ae42d3a" },
+      { name: "CIS", base: "https://mtp.lookout.com/36cb1539-e804-44e3-9f4d-b42947cf9987" },
+      { name: "CMTabaco", base: "https://mtp.lookout.com/d9e62dcd-6632-4274-bf26-4991bd66703a" },
+      { name: "CNIG", base: "https://mtp.lookout.com/1b17621f-17e1-439e-a300-bd5cd85e79b7" },
+      { name: "CNMC", base: "https://mtp.lookout.com/60e70564-ddaa-42db-a506-bb8abb9566d3" },
+      { name: "CONSUMO", base: "https://mtp.lookout.com/fe22e6df-ab58-4f9b-ba89-fe09c0012591" },
+      { name: "CSD", base: "https://mtp.lookout.com/01331b44-dabb-4e24-b847-f5a16646fcb0" },
+      { name: "CSIC", base: "https://mtp.lookout.com/68f2d6f8-3d35-46f4-abd0-a909f2bdeeae" },
+      { name: "CSIC-NETREMOR", base: "https://mtp.lookout.com/7dae24af-7c3b-478b-ae4c-ed71df907a11" },
+      { name: "CSN", base: "https://mtp.lookout.com/c50a3e6b-0d93-4f1d-88f4-a6357408e31e" },
+      { name: "CTBG", base: "https://mtp.lookout.com/02b2a404-4860-46e4-8f64-35898b28f825" },
+      { name: "CULTURA", base: "https://mtp.lookout.com/4b7028c6-2c0f-4512-8029-a836fbe756da" },
+      { name: "CULTURA-AC", base: "https://mtp.lookout.com/e2cbc8f4-c4ce-4d4f-b540-4d5206135efa" },
+      { name: "DERECHOS_SOCIALES", base: "https://mtp.lookout.com/b255d875-7ca6-4175-bdc9-97d3fb003fb6" },
+      { name: "DERECHOS_SOCIALES-AC", base: "https://mtp.lookout.com/4eac313f-8033-405f-9ecd-07e293c9fc14" },
+      { name: "DG_PE", base: "https://mtp.lookout.com/ff8af188-ee2c-480b-9588-3fcf828d16ca" },
+      { name: "DG_TRIB", base: "https://mtp.lookout.com/c53af87a-8637-4a3e-a5e0-5351b2ab3853" },
+      { name: "DGOJ", base: "https://mtp.lookout.com/8cef5cab-6b0b-4fb2-b4a0-7620d3f85589" },
+      { name: "DGPCyE", base: "https://mtp.lookout.com/25f9ac56-b153-49b3-98ba-abe6f2a354e0" },
+      { name: "DGSFP", base: "https://mtp.lookout.com/a8d1c880-98bb-4bc8-ab65-b2ccd7f8170d" },
+      { name: "DGT", base: "https://mtp.lookout.com/467e0ef5-ad63-4f54-9ae6-85c57b31196d" },
+      { name: "DGTDAJ", base: "https://mtp.lookout.com/832bf0e0-51b1-43c3-9973-520ce5e17c8c" },
+      { name: "DIGITAL", base: "https://mtp.lookout.com/02eaa900-10a8-49aa-9b1b-9720b7e88da3" },
+      { name: "DIGITAL-AC", base: "https://mtp.lookout.com/2a4ad079-234b-4a09-bf83-1c09da3ce275" },
+      { name: "ECONOMIA", base: "https://mtp.lookout.com/b0e8c285-97f7-4453-b5df-9287b7fad006" },
+      { name: "ECONOMIA-AC", base: "https://mtp.lookout.com/5b75e3e2-b155-4daa-bc63-9165a3e899a8" },
+      { name: "EDUCACION", base: "https://mtp.lookout.com/3520b744-77de-43ce-ba6f-3040e97d5a47" },
+      { name: "EDUCACION-AC", base: "https://mtp.lookout.com/6e080047-d570-4048-b09d-1568cfe1ee6d" },
+      { name: "ENESA", base: "https://mtp.lookout.com/8d6849ee-7c40-4528-9d16-c70a09fea193" },
+      { name: "EXTERIORES", base: "https://mtp.lookout.com/37400d82-0b34-4beb-8278-9727940c7b32" },
+      { name: "EXTERIORES-AC", base: "https://mtp.lookout.com/c39a7637-6b35-4cb3-8cc8-1b9ad99596c9" },
+      { name: "FEGA", base: "https://mtp.lookout.com/307ff388-0a64-4e47-9abb-c0688f99f79f" },
+      { name: "FOGASA", base: "https://mtp.lookout.com/0c2521e6-b222-45cf-9c15-df9051466512" },
+      { name: "GIEC", base: "https://mtp.lookout.com/23f44435-7afc-4b9e-b7c3-0b258b5891f3" },
+      { name: "HACIENDA", base: "https://mtp.lookout.com/13ff2d9b-29af-4771-b02b-dad69a2ee4c2" },
+      { name: "HACIENDA-AC", base: "https://mtp.lookout.com/fc578bc8-f032-4b5f-8e2d-97f12490612f" },
+      { name: "ICAA", base: "https://mtp.lookout.com/2dc5cc3d-b2d6-425f-b45a-956925dde84c" },
+      { name: "ICAC", base: "https://mtp.lookout.com/30efaa62-791f-4c8e-aac4-dcf28bd88f56" },
+      { name: "IEF", base: "https://mtp.lookout.com/d3aa40a4-07cd-4f39-bc75-8b3ccfc0ad02" },
+      { name: "IEO", base: "https://mtp.lookout.com/7393b546-ab92-4afb-9614-53fc49246e83" },
+      { name: "IGAE", base: "https://mtp.lookout.com/1d7df9b8-0557-42eb-9e57-26a07b2795c6" },
+      { name: "IGAE-AC", base: "https://mtp.lookout.com/e877b1c0-2b5c-4594-9ede-a0a7f56f0c38" },
+      { name: "IGME", base: "https://mtp.lookout.com/3ebbff2a-97ff-4c57-ae0c-0e0ede6ef862" },
+      { name: "IGUALDAD", base: "https://mtp.lookout.com/bd1e9e6f-78b8-40cc-82d0-c92318b43ed5" },
+      { name: "IGUALDAD-AC", base: "https://mtp.lookout.com/2787b4fc-828d-4634-9c2c-2163739eb0e8" },
+      { name: "IMSERSO", base: "https://mtp.lookout.com/2a5f3617-a839-4f77-8f7e-12eec741cd43" },
+      { name: "INAEM", base: "https://mtp.lookout.com/38da45ac-4331-469f-ab36-3855a535473a" },
+      { name: "INAP", base: "https://mtp.lookout.com/a79d4259-b8cc-467c-91b0-842089cac203" },
+      { name: "INCLUSION", base: "https://mtp.lookout.com/07d8d059-6e95-420c-a562-c84fba00b9f2" },
+      { name: "INCLUSION-AC", base: "https://mtp.lookout.com/f70446c9-44f3-4898-9eac-11071f863703" },
+      { name: "INDUSTRIA", base: "https://mtp.lookout.com/543690ca-75d1-4b4e-acc8-1590b53bb182" },
+      { name: "INDUSTRIA-AC", base: "https://mtp.lookout.com/372e23a2-dcb9-4770-ad4e-470ac54d90bb" },
+      { name: "INE", base: "https://mtp.lookout.com/7306a053-a05f-4ea3-80bd-c632f6732fca" },
+      { name: "INGESA-CEUTA", base: "https://mtp.lookout.com/bc5e3140-4f21-4481-af17-0f5c80bfdd5c" },
+      { name: "INGESA-DOSIM", base: "https://mtp.lookout.com/c159549d-182f-4870-929e-0274cf9c6e15" },
+      { name: "INGESA-MELILLA", base: "https://mtp.lookout.com/63689a10-fe27-444a-9c69-13e0ef0fec79" },
+      { name: "INGESA-SSCC", base: "https://mtp.lookout.com/4089c802-126e-4790-b730-46fdf990ba4d" },
+      { name: "INIA", base: "https://mtp.lookout.com/e78d7a17-d02f-40ef-b886-c94f4baea656" },
+      { name: "INJUVE", base: "https://mtp.lookout.com/21936249-363d-47a2-beeb-1b75e850aa76" },
+      { name: "INMUJER", base: "https://mtp.lookout.com/d7b24cfe-ecf6-4ab9-95e7-eeb5b70b0d73" },
+      { name: "INSST", base: "https://mtp.lookout.com/cc4e3469-7302-4a89-be36-6833733fdd27" },
+      { name: "INTEF", base: "https://mtp.lookout.com/060d69bc-59d2-4c59-9614-8e758041416c" },
+      { name: "INTERIOR", base: "https://mtp.lookout.com/9e6eee39-1bc3-455c-9de5-35afca0b5fb8" },
+      { name: "INTERIOR-AC", base: "https://mtp.lookout.com/e21bc349-bd68-4773-9e89-a147445bb69f" },
+      { name: "ITJ", base: "https://mtp.lookout.com/93a4ddcf-dd84-4dae-91c5-545619ca0a02" },
+      { name: "JUSTICIA-AC", base: "https://mtp.lookout.com/6def5431-625a-4cda-889c-0621ba6b46b7" },
+      { name: "JUVENTUD", base: "https://mtp.lookout.com/1b45bbe6-d9e8-4a90-9270-159743d08dc2" },
+      { name: "JUVENTUD-AC", base: "https://mtp.lookout.com/90d1af0c-0cf7-42c0-a616-8546817b39d7" },
+      { name: "MAPA", base: "https://mtp.lookout.com/8cf0acb1-8539-4b9f-ab04-963504d322f4" },
+      { name: "MAPA-AC", base: "https://mtp.lookout.com/d498d89f-c963-4f6d-8052-cfb79565d0fc" },
+      { name: "MCT", base: "https://mtp.lookout.com/2e02260a-fd05-46e1-885d-ebb2c9f10f2c" },
+      { name: "MITECO", base: "https://mtp.lookout.com/820d2f82-0336-46bd-a6a5-53757ab290fc" },
+      { name: "MITECO-AC", base: "https://mtp.lookout.com/bd46aeb2-4182-4416-9499-0c316fd83e16" },
+      { name: "MITMA", base: "https://mtp.lookout.com/5a4f0663-2885-43d8-87cd-27037281d903" },
+      { name: "MITMA-AC", base: "https://mtp.lookout.com/ced647af-2b95-489c-a114-18951fafaf5a" },
+      { name: "MJU", base: "https://mtp.lookout.com/9dd5849d-f183-48c1-8780-ccb09e25f340" },
+      { name: "MPR", base: "https://mtp.lookout.com/e8a5c50f-6166-4a8e-af78-73150a7ee6dc" },
+      { name: "MPR-AC", base: "https://mtp.lookout.com/bd19aaa8-f148-4d56-9847-1cfc743a00c9" },
+      { name: "MPT-SSCC", base: "https://mtp.lookout.com/19779056-9701-4e0a-86e8-12f5e68ad894" },
+      { name: "MPT-SSCC-AC", base: "https://mtp.lookout.com/c853c9ad-60fb-4527-ac69-e43a622256d0" },
+      { name: "MPT-SSPP", base: "https://mtp.lookout.com/489b03bd-b3b5-4e31-a48e-53557ebf80b9" },
+      { name: "MUFACE", base: "https://mtp.lookout.com/586034b4-fe12-4c99-8912-25ba2bea0979" },
+      { name: "MUGEJU", base: "https://mtp.lookout.com/b04169ea-147a-4d86-850f-13d1484b86ae" },
+      { name: "OAPPNN", base: "https://mtp.lookout.com/8e8b1c86-653c-4245-863e-0b417a52d60a" },
+      { name: "OEITSS", base: "https://mtp.lookout.com/9e4fc59e-c770-4e9d-8c34-ab13c2a2ac81" },
+      { name: "OEPM", base: "https://mtp.lookout.com/fdbe265c-a797-402f-9492-b84dca4a5d7a" },
+      { name: "OFECOMES", base: "https://mtp.lookout.com/bea09090-dda5-4831-bd0c-0d17bf12790e" },
+      { name: "ONT", base: "https://mtp.lookout.com/3ae2454d-331a-4e3f-aac7-e9a8b301da80" },
+      { name: "PME", base: "https://mtp.lookout.com/66a23c2e-8e43-40b6-b33a-566a4f3c8bbd" },
+      { name: "PRADO", base: "https://mtp.lookout.com/80715aca-3ad7-49c6-8114-e956ca643752" },
+      { name: "R_SOFIA", base: "https://mtp.lookout.com/e1d4312a-6d2a-4758-8da8-2e44becc4291" },
+      { name: "SANIDAD", base: "https://mtp.lookout.com/eec730ad-0810-41a2-b9ed-08e638fbfe5d" },
+      { name: "SANIDAD-AC", base: "https://mtp.lookout.com/dd9b4ef8-02e2-4b5e-a4a9-a572017b2c66" },
+      { name: "SEC", base: "https://mtp.lookout.com/137a45d1-5e1e-4afc-ac4e-5d509d23e9a6" },
+      { name: "SEDIA", base: "https://mtp.lookout.com/4613f491-89a6-48a0-a019-af7bdbd5cff0" },
+      { name: "SEDIA-AC", base: "https://mtp.lookout.com/e2ecf126-f16f-47b0-b086-5ff2820aafce" },
+      { name: "SEFP", base: "https://mtp.lookout.com/ffba6188-8308-445f-a6e4-55a219d2c533" },
+      { name: "SEFP-AC", base: "https://mtp.lookout.com/6d45ff05-44dd-4cf3-953b-2dd53e3e23a1" },
+      { name: "SEPE", base: "https://mtp.lookout.com/be522246-be86-4e0f-9a11-fa5d850ed624" },
+      { name: "SEPIE", base: "https://mtp.lookout.com/7a50f6d0-dca2-4192-9255-80a62bcc8211" },
+      { name: "SETELECO", base: "https://mtp.lookout.com/846d15cf-bb44-485c-a7a6-62deed7b833c" },
+      { name: "SETELECO-AC", base: "https://mtp.lookout.com/bf8ecd28-4a65-4b9e-82b2-e39418665b55" },
+      { name: "SETPF", base: "https://mtp.lookout.com/d5a25897-53eb-4d93-bdef-cfff111557fe" },
+      { name: "SGAE", base: "https://mtp.lookout.com/a9fa13ad-45c5-4107-ad71-d6d81101bb78" },
+      { name: "SGFAL", base: "https://mtp.lookout.com/c01e2b4d-f6ae-4ae0-94cb-f45252703de2" },
+      { name: "SGIIPP", base: "https://mtp.lookout.com/655b22c4-cdb2-4051-a3e3-659f79f18a2d" },
+      { name: "SGME", base: "https://mtp.lookout.com/a231c48b-23f5-4f5b-bb45-9ac7d5f0f33f" },
+      { name: "TEAC", base: "https://mtp.lookout.com/9d53a4eb-3f95-45c6-97d0-69c10353c41a" },
+      { name: "TRABAJO", base: "https://mtp.lookout.com/fba9a46b-44cf-4638-91a7-2cca799b5b02" },
+      { name: "TRABAJO-AC", base: "https://mtp.lookout.com/c2ea701a-6462-469d-9f3c-a862410dc731" },
+      { name: "UIMP", base: "https://mtp.lookout.com/477aadbb-ccee-400b-bb7b-828e5fb99a7f" },
+      { name: "UNIVERSIDADES", base: "https://mtp.lookout.com/fb94cb71-ee7e-4161-ac42-20893418079e" },
+      { name: "VIVIENDA", base: "https://mtp.lookout.com/721882f9-f2a5-47e0-9b99-f0eb46adab58" },
+      { name: "VIVIENDA-AC", base: "https://mtp.lookout.com/1b32635b-2aac-48cd-8eab-60522f40f3e8" }
+    ];
+
     const input = document.getElementById('search');
-    const cards = Array.from(document.querySelectorAll('.card'));
+    const grid = document.getElementById('grid');
     const count = document.getElementById('count');
     const empty = document.getElementById('empty');
+    const summary = document.getElementById('summary');
+    const problemasFilters = document.getElementById('problemas-filters');
+
+    function escapeHtml(text) {
+      return text
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#039;');
+    }
+
+    function getSelectedGroup() {
+      return document.querySelector('input[name="group"]:checked').value;
+    }
+
+    function getSelectedMode() {
+      return document.querySelector('input[name="mode"]:checked').value;
+    }
+
+    function getSelectedDiscovered() {
+      return document.querySelector('input[name="discovered"]:checked').value;
+    }
+
+    function getSelectedDiscoveredLabel() {
+      return document.querySelector('input[name="discovered"]:checked + label').textContent;
+    }
+
+    function getSelectedState() {
+      const selected = document.querySelector('input[name="state"]:checked');
+      return selected ? selected.value : '';
+    }
+
+    function getSelectedStateLabel() {
+      const selected = document.querySelector('input[name="state"]:checked + label');
+      return selected ? selected.textContent : 'sin estado';
+    }
+
+    function getCheckedValues(selector) {
+      return Array.from(document.querySelectorAll(selector))
+        .filter(el => el.checked)
+        .map(el => el.value);
+    }
+
+    function getSelectedRisks() {
+      return getCheckedValues('#risk-block input[type="checkbox"]');
+    }
+
+    function getSelectedPlatforms() {
+      return getCheckedValues('#os-block input[type="checkbox"]');
+    }
+
+    function getSelectedTypes() {
+      return getCheckedValues('#type-block input[type="checkbox"]');
+    }
+
+    function getSelectedAssessments() {
+      return getCheckedValues('#assessment-block input[type="checkbox"]');
+    }
+
+    function hasIntersection(arr1, arr2) {
+      return arr1.some(value => arr2.includes(value));
+    }
+
+    function updateAssessmentVisibility() {
+      const selectedPlatforms = getSelectedPlatforms();
+      const selectedTypes = getSelectedTypes();
+
+      const effectivePlatforms = selectedPlatforms.length ? selectedPlatforms : ['android', 'ios'];
+      const effectiveTypes = selectedTypes.length ? selectedTypes : ['application', 'configuration', 'file', 'network', 'os'];
+
+      const assessmentInputs = document.querySelectorAll('#assessment-block input[type="checkbox"]');
+
+      assessmentInputs.forEach(input => {
+        const chip = input.closest('.chip');
+        const allowedPlatforms = input.dataset.platforms.split(',').map(v => v.trim());
+        const allowedTypes = input.dataset.types.split(',').map(v => v.trim());
+
+        const platformOk = hasIntersection(allowedPlatforms, effectivePlatforms);
+        const typeOk = hasIntersection(allowedTypes, effectiveTypes);
+        const visible = platformOk && typeOk;
+
+        chip.classList.toggle('hidden', !visible);
+
+        if (!visible) {
+          input.checked = false;
+        }
+      });
+    }
+
+    function isAltosCargos(name) {
+      return name.endsWith('-AC');
+    }
+
+    function appendRepeatedParam(url, paramName, values) {
+      values.forEach(value => {
+        url += `&${paramName}=${encodeURIComponent(value)}`;
+      });
+      return url;
+    }
+
+    function buildProblemasUrl(base) {
+      let url = base + getSelectedDiscovered();
+
+      const state = getSelectedState();
+      const risks = getSelectedRisks();
+      const platforms = getSelectedPlatforms();
+      const types = getSelectedTypes();
+      const assessments = getSelectedAssessments();
+
+      if (state) {
+        url += `&states%5B%5D=${encodeURIComponent(state)}`;
+      }
+
+      url = appendRepeatedParam(url, 'severities%5B%5D', risks);
+      url = appendRepeatedParam(url, 'platforms%5B%5D', platforms);
+      url = appendRepeatedParam(url, 'types%5B%5D', types);
+      url = appendRepeatedParam(url, 'assessments%5B%5D', assessments);
+
+      return url;
+    }
+
+    function buildFinalUrl(base) {
+      return getSelectedMode() === 'panel' ? base : buildProblemasUrl(base);
+    }
+
+    function updateSummary() {
+      const mode = getSelectedMode();
+
+      updateAssessmentVisibility();
+
+      if (mode === 'panel') {
+        problemasFilters.classList.add('hidden-block');
+        summary.innerHTML = 'Modo actual: <strong>Panel</strong>.';
+        return;
+      }
+
+      problemasFilters.classList.remove('hidden-block');
+
+      const discovered = getSelectedDiscoveredLabel();
+      const state = getSelectedStateLabel();
+      const risks = getSelectedRisks();
+      const platforms = getSelectedPlatforms();
+      const types = getSelectedTypes();
+      const assessments = getSelectedAssessments();
+
+      summary.innerHTML = `
+        Modo: <strong>Problemas</strong><br>
+        Descubierto en: <strong>${discovered}</strong><br>
+        Estado: <strong>${state}</strong><br>
+        Riesgo: <strong>${risks.length ? risks.join(', ') : 'sin filtro'}</strong><br>
+        SO: <strong>${platforms.length ? platforms.join(', ') : 'sin filtro'}</strong><br>
+        Tipo: <strong>${types.length ? types.join(', ') : 'sin filtro'}</strong><br>
+        Clasificación: <strong>${assessments.length ? assessments.join(', ') : 'sin filtro'}</strong>
+      `;
+    }
+
+    function renderCards(filteredEntries) {
+      grid.innerHTML = filteredEntries.map(entry => `
+        <a class="card" href="${buildFinalUrl(entry.base)}" target="_blank" rel="noopener noreferrer">
+          <span class="name">${escapeHtml(entry.name)}</span>
+          <span class="cta">Abrir</span>
+        </a>
+      `).join('');
+    }
 
     function updateFilter() {
       const q = input.value.trim().toLowerCase();
-      let visible = 0;
+      const group = getSelectedGroup();
 
-      cards.forEach(card => {
-        const text = card.querySelector('.name').textContent.toLowerCase();
-        const show = text.includes(q);
-        card.classList.toggle('hidden', !show);
-        if (show) visible++;
+      const filtered = entries.filter(entry => {
+        const matchesSearch = entry.name.toLowerCase().includes(q);
+
+        let matchesGroup = true;
+        if (group === 'ac') {
+          matchesGroup = isAltosCargos(entry.name);
+        } else if (group === 'resto') {
+          matchesGroup = !isAltosCargos(entry.name);
+        }
+
+        return matchesSearch && matchesGroup;
       });
 
-      count.textContent = `${visible} acceso${visible === 1 ? '' : 's'}`;
-      empty.style.display = visible === 0 ? 'block' : 'none';
+      renderCards(filtered);
+      count.textContent = `${filtered.length} acceso${filtered.length === 1 ? '' : 's'}`;
+      empty.style.display = filtered.length === 0 ? 'block' : 'none';
     }
 
     input.addEventListener('input', updateFilter);
+
+    document.querySelectorAll('input[name="group"]').forEach(el => {
+      el.addEventListener('change', updateFilter);
+    });
+
+    document.querySelectorAll('input[name="mode"]').forEach(el => {
+      el.addEventListener('change', () => {
+        updateSummary();
+        updateFilter();
+      });
+    });
+
+    document.querySelectorAll('input[name="discovered"]').forEach(el => {
+      el.addEventListener('change', () => {
+        updateSummary();
+        updateFilter();
+      });
+    });
+
+    document.querySelectorAll('input[name="state"]').forEach(el => {
+      el.addEventListener('change', () => {
+        updateSummary();
+        updateFilter();
+      });
+    });
+
+    document.querySelectorAll('#risk-block input[type="checkbox"], #os-block input[type="checkbox"], #type-block input[type="checkbox"], #assessment-block input[type="checkbox"]').forEach(el => {
+      el.addEventListener('change', () => {
+        updateSummary();
+        updateFilter();
+      });
+    });
+
+    updateSummary();
+    updateFilter();
   </script>
 </body>
 </html>
